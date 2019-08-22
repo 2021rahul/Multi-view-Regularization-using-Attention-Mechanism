@@ -53,8 +53,8 @@ X_concat_consistency = tf.concat([tf.gather(X_coarse_consistency, ind), X_fine_c
 X_attention_consistency = []
 for i in range(config.batch_consistency):
     score = tf.nn.tanh(tf.matmul(X_concat_consistency[i*9:(i+1)*9], W_attention))
-#    attention_weights = tf.nn.softmax(score, axis=0)
-    attention_weights = tf.pow(config.x, score)/tf.reduce_sum(tf.pow(config.x, score))
+    attention_weights = tf.nn.softmax(score, axis=0)
+#    attention_weights = tf.pow(config.x, score)/tf.reduce_sum(tf.pow(config.x, score))
     context = tf.divide(tf.matmul(tf.transpose(attention_weights), X_fine_consistency[i*9:(i+1)*9]), tf.reduce_sum(attention_weights))
     X_attention_consistency.append(context)
 X_attention_consistency = tf.reshape(tf.convert_to_tensor(X_attention_consistency), (config.batch_consistency, num_features_fine))
