@@ -16,11 +16,11 @@ MODEL_DIR = os.path.join(DATA_DIR, "MODEL")
 #%% DATA INFO
 num_strong_landsat = 200
 #%% TRAIN INFO
-learning_rate = 0.1
+learning_rate = 0.01
 n_epochs = 10000
 
 x = 1000.0
 lambda1 = 1.0
 lambda2 = 1.0
-lambda3 = 1.0
+lambda3 = 0.5
 batch_consistency = 1000
