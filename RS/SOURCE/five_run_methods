@@ -1,0 +1,78 @@
+#!/bin/bash
+
+if [ -f ../DATA/D1/out_100.txt ]; then
+    rm ../DATA/D1/out_100.txt
+fi
+
+for run in 1 2 3 4 5
+do
+  echo "#########################################################################" >> ../DATA/D1/out_100.txt
+  echo "RUN $run" >> ../DATA/D1/out_100.txt
+
+  cd DATA_SCRIPTS/LANDSAT
+  python data.py
+  cd ../SENTINEL
+  python data.py
+
+  cd ../../
+
+  echo "OnlyStrong" >> ../DATA/D1/out_100.txt
+  cd LANDSAT/OnlyStrong
+  python train_model.py
+  python validate_model.py >> ../../../DATA/D1/out_100.txt
+  python test_model.py >> ../../../DATA/D1/out_100.txt
+  cd ../../
+  cd SENTINEL/OnlyStrong
+  python train_model.py
+  python validate_model.py >> ../../../DATA/D1/out_100.txt
+  python test_model.py >> ../../../DATA/D1/out_100.txt
+  cd ../../
+
+  echo "#########################################################################" >> ../DATA/D1/out_100.txt
+
+  echo "SSRManifold" >> ../DATA/D1/out_100.txt
+  cd LANDSAT/SSRManifold
+  python train_model.py
+  python validate_model.py >> ../../../DATA/D1/out_100.txt
+  python test_model.py >> ../../../DATA/D1/out_100.txt
+  cd ../../
+  cd SENTINEL/SSRManifold
+  python train_model.py
+  python validate_model.py >> ../../../DATA/D1/out_100.txt
+  python test_model.py >> ../../../DATA/D1/out_100.txt
+  cd ../../
+
+  echo "#########################################################################" >> ../DATA/D1/out_100.txt
+
+  echo "WeaSL" >> ../DATA/D1/out_100.txt
+  cd MULTIRES/WeaSL
+  python train_model.py
+  python test_model.py >> ../../../DATA/D1/out_100.txt
+  cd ../../
+
+  echo "#########################################################################" >> ../DATA/D1/out_100.txt
+
+  echo "Augment" >> ../DATA/D1/out_100.txt
+  cd MULTIRES/Augment
+  python train_model.py
+  python test_model.py >> ../../../DATA/D1/out_100.txt
+  cd ../../
+
+  echo "#########################################################################" >> ../DATA/D1/out_100.txt
+
+  echo "MIL" >> ../DATA/D1/out_100.txt
+  cd MULTIRES/MIL
+  python train_model.py
+  python validate_model.py >> ../../../DATA/D1/out_100.txt
+  python test_model.py >> ../../../DATA/D1/out_100.txt
+  cd ../../
+
+  echo "#########################################################################" >> ../DATA/D1/out_100.txt
+
+  echo "ATTENTION" >> ../DATA/D1/out_100.txt
+  cd MULTIRES/Attention
+  python train_model.py
+  python validate_model.py >> ../../../DATA/D1/out_100.txt
+  python test_model.py >> ../../../DATA/D1/out_100.txt
+  cd ../../
+done
