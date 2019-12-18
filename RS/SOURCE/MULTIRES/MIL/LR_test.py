@@ -23,33 +23,29 @@ num_features_fine = 12
 num_features_coarse = 11
 # %%
 print("BUILD MODEL")
+tf.reset_default_graph()
 with tf.name_scope('data'):
+    n_epoch = tf.placeholder(tf.float32, shape=())
     X_fine = tf.placeholder(tf.float32, [None, num_features_fine], name="fine_res_inputs")
     Y_fine = tf.placeholder(tf.float32, [None, 1], name="fine_res_labels")
     X_coarse = tf.placeholder(tf.float32, [None, num_features_coarse], name="corase_res_inputs")
     Y_coarse = tf.placeholder(tf.float32, [None, 1], name="coarse_res_labels")
+    X_fine_consistency= tf.placeholder(tf.float32, [9*config.MULTIRES_MIL_batch_consistency, num_features_fine], name="fine_res_consistency_inputs")
+    X_coarse_consistency = tf.placeholder(tf.float32, [config.MULTIRES_MIL_batch_consistency, num_features_coarse], name="coarse_res_consistency_inputs")
 
 with tf.variable_scope("Variables", reuse=tf.AUTO_REUSE):
-    W_1_fine = tf.get_variable("Weights_layer_1_fine", [num_features_fine, 6], initializer=tf.contrib.layers.xavier_initializer())
-    b_1_fine = tf.get_variable("Biases_layer_1_fine", [6], initializer=tf.zeros_initializer())
-    W_2_fine = tf.get_variable("Weights_layer_2_fine", [6, 1], initializer=tf.contrib.layers.xavier_initializer())
-    b_2_fine = tf.get_variable("Biases_layer_2_fine", [1], initializer=tf.zeros_initializer())
+    W_fine = tf.get_variable("Weights_fine", [12, 1], initializer=tf.contrib.layers.xavier_initializer())
+    b_fine = tf.get_variable("Biases_fine", [1], initializer=tf.zeros_initializer())
+    W_coarse = tf.get_variable("Weights_coarse", [11, 1], initializer=tf.contrib.layers.xavier_initializer())
+    b_coarse = tf.get_variable("Biases_coarse", [1], initializer=tf.zeros_initializer())
 
-    W_1_coarse = tf.get_variable("Weights_layer_1_coarse", [num_features_coarse, 6], initializer=tf.contrib.layers.xavier_initializer())
-    b_1_coarse = tf.get_variable("Biases_layer_1_coarse", [6], initializer=tf.zeros_initializer())
-    W_2_coarse = tf.get_variable("Weights_layer_2_coarse", [6, 1], initializer=tf.contrib.layers.xavier_initializer())
-    b_2_coarse = tf.get_variable("Biases_layer_2_coarse", [1], initializer=tf.zeros_initializer())
-
-Z_fine = tf.nn.sigmoid(tf.add(tf.matmul(X_fine, W_1_fine, name="multiply_weights"), b_1_fine, name="add_bias"))
-Z_fine = tf.nn.sigmoid(tf.add(tf.matmul(Z_fine, W_2_fine, name="multiply_weights"), b_2_fine, name="add_bias"))
-
-Z_coarse = tf.nn.sigmoid(tf.add(tf.matmul(X_coarse, W_1_coarse, name="multiply_weights"), b_1_coarse, name="add_bias"))
-Z_coarse = tf.nn.sigmoid(tf.add(tf.matmul(Z_coarse, W_2_coarse, name="multiply_weights"), b_2_coarse, name="add_bias"))
+Z_fine = tf.nn.sigmoid(tf.add(tf.matmul(X_fine, W_fine, name="multiply_weights"), b_fine, name="add_bias"))
+Z_coarse = tf.nn.sigmoid(tf.add(tf.matmul(X_coarse, W_coarse, name="multiply_weights"), b_coarse, name="add_bias"))
 #%%
 print("TEST MODEL")
 saver = tf.train.Saver()
 with tf.Session() as sess:
-    saver.restore(sess, os.path.join(config.MODEL_DIR, "MULTI_RES", "Augment", "model.ckpt"))
+    saver.restore(sess, os.path.join(config.MODEL_DIR, "MULTI_RES", "MIL", "LR_model.ckpt"))
     data_fine = test_data_fine[:,:num_features_fine]
     data_coarse = test_data_coarse[:,:num_features_coarse]
     feed_dict = {X_fine: data_fine, X_coarse: data_coarse}

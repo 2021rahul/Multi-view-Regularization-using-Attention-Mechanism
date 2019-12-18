@@ -22,7 +22,7 @@ landsat_num_train = 1000
 landsat_num_validate = 10
 landsat_num_test = 1000
 
-sentinel_num_train = 100
+sentinel_num_train = 10
 sentinel_num_validate = 10
 sentinel_num_test = 9000
 
@@ -61,11 +61,11 @@ MULTIRES_MIL_learning_rate = 0.01
 MULTIRES_MIL_n_epochs = 10000
 MULTIRES_MIL_reg_param_1 = 1.0
 MULTIRES_MIL_reg_param_2 = 1.0
-MULTIRES_MIL_reg_param_3 = 1.0
+MULTIRES_MIL_reg_param_3 = 0.001
 MULTIRES_MIL_batch_consistency = 1000
 
 # MULTIRES_Attention
-MULTIRES_Attention_learning_rate = 0.01
+MULTIRES_Attention_learning_rate = 0.001
 MULTIRES_Attention_n_epochs = 10000
 MULTIRES_Attention_reg_param_1 = 1.0
 MULTIRES_Attention_reg_param_2 = 1.0

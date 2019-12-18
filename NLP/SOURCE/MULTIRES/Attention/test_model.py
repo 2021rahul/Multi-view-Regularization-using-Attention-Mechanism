@@ -43,13 +43,10 @@ print("BUILD MODEL")
 tf.reset_default_graph()
 
 with tf.name_scope('data'):
-    n_epoch = tf.placeholder(tf.float32, shape=())
     X_fine = tf.placeholder(tf.int32, [None, num_features_fine], name="fine_res_inputs")
     Y_fine = tf.placeholder(tf.float32, [None, 1], name="fine_res_labels")
     X_coarse = tf.placeholder(tf.int32, [None, num_features_coarse], name="corase_res_inputs")
     Y_coarse = tf.placeholder(tf.float32, [None, 1], name="coarse_res_labels")
-    X_fine_consistency= tf.placeholder(tf.int32, [9*config.MULTIRES_Attention_batch_consistency, num_features_fine], name="fine_res_consistency_inputs")
-    X_coarse_consistency = tf.placeholder(tf.int32, [config.MULTIRES_Attention_batch_consistency, num_features_coarse], name="coarse_res_consistency_inputs")
     tf_embedding_placeholder = tf.placeholder(tf.float32, shape=[400001, 100])
 
 with tf.variable_scope("Variables", reuse=tf.AUTO_REUSE):
@@ -57,7 +54,6 @@ with tf.variable_scope("Variables", reuse=tf.AUTO_REUSE):
     b_fine = tf.get_variable("Biases_layer_1_fine", [1], initializer=tf.zeros_initializer())
     W_coarse = tf.get_variable("Weights_layer_1_coarse", [64, 1], initializer=tf.contrib.layers.xavier_initializer())
     b_coarse = tf.get_variable("Biases_layer_1_coarse", [1], initializer=tf.zeros_initializer())
-    W_attention = tf.get_variable("Weights_attention", [128, 1], initializer=tf.contrib.layers.xavier_initializer())
 
 tf_embedding = tf.Variable(tf.constant(0.0, shape=[400001, 100]), trainable=False, name="Embedding")
 tf_embedding_init = tf_embedding.assign(tf_embedding_placeholder)

@@ -22,6 +22,8 @@ test_data_coarse = np.load(os.path.join(config.NUMPY_DIR, "landsat_test_data.npy
 num_features_fine = 12
 num_features_coarse = 11
 # %%
+print("BUILD MODEL")
+tf.reset_default_graph()
 with tf.name_scope('data'):
     X_fine = tf.placeholder(tf.float32, [None, num_features_fine], name="fine_res_inputs")
     Y_fine = tf.placeholder(tf.float32, [None, 1], name="fine_res_labels")
