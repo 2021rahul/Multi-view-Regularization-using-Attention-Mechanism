@@ -8,7 +8,7 @@ Many real-world phenomena are observed at multiple resolutions. Predictive model
 # Details of the implementation
 
 1. Data sets - 
-Data sets used in the paper can be downloaded here -
+Data sets used in the paper can be downloaded here - https://drive.google.com/file/d/15ymp-CpKTyLMH39vGj5oHPngIb62mgm1/view?usp=sharing
 Every data set is split into 3 parts, each with its own .numpy file - (train_fine/train_coarse)/test/validation and unlabeled data in the numpy files consistency_fine, consistency_coarse
 Each numpy file has a feature variable x (every row is an instance, columns are features) and a label variable y
 Coarse and fine resolution training data have separate numpy files
