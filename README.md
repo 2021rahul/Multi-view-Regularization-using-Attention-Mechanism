@@ -76,7 +76,7 @@ with tf.variable_scope("optimizer", reuse=tf.AUTO_REUSE):
     optimizer = tf.train.AdamOptimizer(config.MULTIRES_Attention_learning_rate).minimize(loss, global_step)
 ```
 
-This section of code must be changed to use different neural network architectures along with multi-resolution consistency. Another example of using LSTM networks with multi-resolution consistency is shown below,
+This above section of code must be changed to use different neural network architectures along with multi-resolution consistency. Another example of using LSTM networks with multi-resolution consistency is shown below,
 ```
 print("BUILD MODEL")
 tf.reset_default_graph()
